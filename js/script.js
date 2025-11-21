@@ -1,79 +1,71 @@
+// Poin 4: Mengisi "Name" pada ucapan selamat datang
 function setWelcomeName() {
-    // Meminta nama pengguna
-    // Jika nama tidak ada di localStorage, prompt akan muncul.
+    // Coba ambil nama dari penyimpanan lokal (agar tidak prompt setiap kali refresh)
     let userName = localStorage.getItem('user-name');
     
     if (!userName) {
-        userName = prompt("Masukkan nama Anda untuk ucapan selamat datang:");
-        // Simpan nama (opsional) agar tidak prompt lagi
+        // Jika nama belum ada, minta input dari pengguna
+        userName = prompt("Selamat datang! Masukkan Nama Anda:");
         if (userName) {
-            localStorage.setItem('user-name', userName);
+            localStorage.setItem('user-name', userName); // Simpan nama
         } else {
-            // Jika pengguna membatalkan, gunakan nama default
-            userName = "Pengunjung"; 
+            userName = "Guest"; // Nama default jika dibatalkan
         }
     }
     
-    // Mengisi 'Name' pada H1 (tag dengan id="user-name")
+    // Tampilkan nama di elemen dengan id="user-name"
     const nameElement = document.getElementById('user-name');
     if (nameElement) {
         nameElement.textContent = userName;
     }
 }
 
-// Poin 5: Validasi Form "Message Us" & Tampilkan Nilai
+// Poin 5: Validasi Formulir dan Menampilkan Nilai Output
 function validateAndShowOutput(event) {
-    // Mencegah form untuk reload halaman secara default
+    // Mencegah form submit default (reload halaman)
     event.preventDefault(); 
 
-    // Mendapatkan elemen input
-    const nameInput = document.getElementById('name').value.trim();
-    const emailInput = document.getElementById('email').value.trim();
-    const phoneInput = document.getElementById('phone').value.trim();
-    const messageInput = document.getElementById('message').value.trim();
+    // Ambil nilai dari input
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const message = document.getElementById('message').value.trim();
     
     let isValid = true;
-    let errorMessage = "";
 
-    // 1. Validasi Name (tidak boleh kosong)
-    if (nameInput === "") {
-        errorMessage += "Nama wajib diisi.\n";
+    // VALIDASI (Pastikan Name, Email, Message tidak kosong)
+    if (name === "") {
+        alert("Nama wajib diisi.");
         isValid = false;
     }
 
-    // 2. Validasi Email (format email dasar)
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(emailInput)) {
-        errorMessage += "Format email tidak valid.\n";
+    if (!emailPattern.test(email)) {
+        alert("Format email tidak valid.");
         isValid = false;
     }
 
-    // 3. Validasi Message (tidak boleh kosong)
-    if (messageInput === "") {
-        errorMessage += "Pesan wajib diisi.\n";
+    if (message === "") {
+        alert("Pesan wajib diisi.");
         isValid = false;
     }
 
-    // Jika validasi gagal, tampilkan pesan error
     if (!isValid) {
-        alert("Peringatan Validasi:\n" + errorMessage);
-        return false; // Menghentikan proses
+        return false; // Hentikan proses jika ada yang tidak valid
     }
 
-    // Jika validasi berhasil:
+    // Tampilkan nilai ke HTML (Summary Box - Poin 5)
+    document.getElementById('output-name').textContent = name;
+    document.getElementById('output-email').textContent = email;
+    document.getElementById('output-message').textContent = message;
     
-    // Poin 5: Tampilkan nilai pada HTML
-    document.getElementById('output-name').textContent = nameInput;
-    document.getElementById('output-email').textContent = emailInput;
-    document.getElementById('output-message').textContent = messageInput;
+    alert(`Pesan dari ${name} berhasil dikirim!`);
     
-    // Anda bisa tambahkan konfirmasi atau reset form di sini
-    alert("Formulir berhasil dikirim!");
+    // Opsional: Reset form setelah berhasil submit
     // document.forms["messageForm"].reset(); 
 
-    // Return false agar `onsubmit` di HTML tidak memicu reload
-    return false; 
+    return false; // Pastikan form tidak reload halaman
 }
 
-// Panggil fungsi setWelcomeName saat halaman dimuat
+// Panggil fungsi saat dokumen dimuat
 document.addEventListener('DOMContentLoaded', setWelcomeName);
