@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1em;
+}
+
+/* Contoh untuk Mobile View (di bawah 600px) */
+@media (max-width: 600px) {
+    main {
+        padding: 10px;
+    }
+    nav a {
+        display: block;
+        padding: 5px 0;
+    }
+}
+
+/* Contoh untuk Desktop View (di atas 601px) */
+@media (min-width: 601px) {
+    nav a {
+        margin-right: 20px;
+    }
+}
+
+/* Tambahkan styling untuk form, mockup, dan halaman "Our Profile" Anda di sini */ 
